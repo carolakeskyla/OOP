@@ -1,3 +1,4 @@
+package application;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -5,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FailiLugeja extends Main {
-    public List<Aine> aineListike() throws FileNotFoundException {
+    public List<Aine> aineListike() {
         List<Aine> ainelist = new ArrayList<>();
         File fail = new File("ainefail.txt");
         try {
@@ -18,7 +19,7 @@ public class FailiLugeja extends Main {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            //e.printStackTrace(); //kuvab errori; comment, sest kasutajale pole tarvis seda
+            
         }
         return ainelist;
     }
