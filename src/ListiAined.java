@@ -1,7 +1,6 @@
 package application;
-import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Scanner;
+
 public class ListiAined { //
     List<Aine> Ainetelist;
 

@@ -1,4 +1,5 @@
 package application;
+
 public class Aine{
     public int indeks;
     public String nimetus;
@@ -19,10 +20,6 @@ public class Aine{
         return indeks;
     }
 
-//    public void setIndeks(int indeks) {
-//        this.indeks = indeks;
-//    }
-
     public double getTehtudTunnid() {
         return tehtudTunnid;
     }
@@ -32,12 +29,12 @@ public class Aine{
     public String getNimetus() {
         return nimetus;
     }
-//    public int getEAP() {
-//        return EAP;
-//    }
-//    public int getEttenähtudTunnid() {
-//        return ettenähtudTunnid;
-//    }
+    public int getEAP() {
+        return EAP;
+    }
+    public int getEttenähtudTunnid() {
+        return ettenähtudTunnid;
+    }
     @Override
     public String toString() {
         return indeks + "." + ";" + nimetus + ";" + EAP + ";" + ettenähtudTunnid + ";" + tehtudTunnid;
