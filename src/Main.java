@@ -59,6 +59,7 @@ public class Main extends Application {
         try {
             double tunnid = Integer.parseInt(väli_tunnid.getText());
             uusList = lisamine.lisaAineid(muutmine, nimetus, tunnid).getAinetelist();
+            
         } catch (Exception numbriErind) {
             Alert teavitus = new Alert(AlertType.ERROR);
             teavitus.setTitle("Viga!");
@@ -66,6 +67,7 @@ public class Main extends Application {
             teavitus.setContentText("Sisestatud tundide arv ei ole number!");
             teavitus.showAndWait();
         }}
+
 
     public void start(Stage primaryStage) {
         lisamine = new AineteLisamine();
@@ -75,8 +77,8 @@ public class Main extends Application {
         uusList = muutmine.getAinetelist();
         try {
             kustutaFailiSisu();
-        }
 
+        }
         catch(IOException e) {
             Alert teavitus = new Alert(AlertType.ERROR);
             teavitus.setTitle("Viga!");
@@ -103,20 +105,20 @@ public class Main extends Application {
 
             Label silt_nimetus = new Label("Vali aine:");
             root.add(silt_nimetus, 0, 1);
-
+            
             List<String> list_nimed = new ArrayList<>();
-            list_nimed.add(0, "-");
             for (Aine aine : uusList) {
-                list_nimed.add(aine.getNimetus());
+            	list_nimed.add(aine.getNimetus());
             }
 
             ComboBox<String> dropdown = new ComboBox<>();
+            dropdown.setVisibleRowCount(5);
+            dropdown.getItems().add("-");
             dropdown.getItems().addAll(list_nimed);
             dropdown.setValue("-");
-            dropdown.setVisibleRowCount(5);
             root.add(dropdown, 1, 1);
 
-            Label silt_nimetus2 = new Label("..või sisesta uue aine nimetus: ");
+            Label silt_nimetus2 = new Label("...või sisesta uue aine nimetus: ");
             root.add(silt_nimetus2, 0, 2);
 
             TextField väli_nimetus = new TextField();
@@ -146,6 +148,10 @@ public class Main extends Application {
                             } else {
                                 nimetus = väli_nimetus.getText(); }
                                 tunnid(väli_tunnid, nimetus, muutmine, lisamine);
+                                if (!dropdown.getItems().contains(nimetus)) {
+                                	dropdown.getItems().add(nimetus);
+                                }
+                                dropdown.setValue("-");
 
                         } catch (Exception str) {
                             Alert teavitus = new Alert(AlertType.ERROR);
@@ -155,7 +161,8 @@ public class Main extends Application {
                         }
                     } else {
                         nimetus = väärtus;
-                        tunnid(väli_tunnid, nimetus, muutmine, lisamine); }}
+                        tunnid(väli_tunnid, nimetus, muutmine, lisamine);
+                        dropdown.setValue("-");}}
 
             });
 
