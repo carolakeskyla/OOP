@@ -16,10 +16,6 @@ public class Aine{
         this.tehtudTunnid = tehtudTunnid;
     }
 
-    public int getIndeks() {
-        return indeks;
-    }
-
     public double getTehtudTunnid() {
         return tehtudTunnid;
     }
