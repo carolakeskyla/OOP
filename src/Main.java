@@ -67,7 +67,6 @@ public class Main extends Application {
             teavitus.showAndWait();
         }}
 
-
     public void start(Stage primaryStage) {
         lisamine = new AineteLisamine();
         FailiLugeja listiSaamine = new FailiLugeja();
@@ -76,8 +75,8 @@ public class Main extends Application {
         uusList = muutmine.getAinetelist();
         try {
             kustutaFailiSisu();
-
         }
+
         catch(IOException e) {
             Alert teavitus = new Alert(AlertType.ERROR);
             teavitus.setTitle("Viga!");
@@ -105,19 +104,19 @@ public class Main extends Application {
             Label silt_nimetus = new Label("Vali aine:");
             root.add(silt_nimetus, 0, 1);
 
-            List<String> lust = new ArrayList<>();
-            lust.add(0, "-");
+            List<String> list_nimed = new ArrayList<>();
+            list_nimed.add(0, "-");
             for (Aine aine : uusList) {
-                lust.add(aine.getNimetus());
+                list_nimed.add(aine.getNimetus());
             }
 
             ComboBox<String> dropdown = new ComboBox<>();
-            dropdown.getItems().addAll(lust);
+            dropdown.getItems().addAll(list_nimed);
             dropdown.setValue("-");
             dropdown.setVisibleRowCount(5);
             root.add(dropdown, 1, 1);
 
-            Label silt_nimetus2 = new Label("...või sisesta uue aine nimetus: ");
+            Label silt_nimetus2 = new Label("..või sisesta uue aine nimetus: ");
             root.add(silt_nimetus2, 0, 2);
 
             TextField väli_nimetus = new TextField();
