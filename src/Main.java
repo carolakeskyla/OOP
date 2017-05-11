@@ -55,7 +55,7 @@ public class Main extends Application {
         } else {
             lisaFaili(uusList); }
     }
-    public void tunnid(TextField väli_tunnid, String nimetus, ListiAined muutmine, AineteLisamine lisamine) {
+    public void tunnid(TextField väli_tunnid, String nimetus, ListiAined muutmine, AineteLisamine lisamine) throws Exception{
         try {
             double tunnid = Integer.parseInt(väli_tunnid.getText());
             uusList = lisamine.lisaAineid(muutmine, nimetus, tunnid).getAinetelist();
@@ -70,12 +70,14 @@ public class Main extends Application {
 
 
     public void start(Stage primaryStage) {
+    	//toob andmed failist sisse.
         lisamine = new AineteLisamine();
         FailiLugeja listiSaamine = new FailiLugeja();
         list = listiSaamine.aineListike();
         muutmine = new ListiAined(list);
         uusList = muutmine.getAinetelist();
         try {
+        	//kustutab faili sisu
             kustutaFailiSisu();
 
         }
@@ -88,13 +90,14 @@ public class Main extends Application {
         }
 
         try {
+        	//akna loomine
             GridPane root = new GridPane();
             root.setHgap(10);
             root.setVgap(10);
             root.setPadding(new Insets(5, 10, 30, 10));
 
             Scene scene = new Scene(root,400,300);
-
+            //sissejuhatuse tekst
             Label kirjeldus = new Label("Teretulemast ainemahu hindamise programmi! \nSee programm" +
                     " näitab kuivõrd kattuvad Sinu õppeainete õpitud tunnid iga aine ettenähtud õppetundidega.");
             kirjeldus.setWrapText(true);
@@ -110,14 +113,15 @@ public class Main extends Application {
             for (Aine aine : uusList) {
             	list_nimed.add(aine.getNimetus());
             }
-
+            //dropdown menüü loomine
             ComboBox<String> dropdown = new ComboBox<>();
             dropdown.setVisibleRowCount(5);
             dropdown.getItems().add("-");
             dropdown.getItems().addAll(list_nimed);
             dropdown.setValue("-");
             root.add(dropdown, 1, 1);
-
+            
+            //siltide ja tekstiväljade loomine
             Label silt_nimetus2 = new Label("...või sisesta uue aine nimetus: ");
             root.add(silt_nimetus2, 0, 2);
 
@@ -134,7 +138,8 @@ public class Main extends Application {
             root.add(nupp_lisaTunde, 1, 4);
             nupp_lisaTunde.setId("stiil-1");
             GridPane.setHalignment(nupp_lisaTunde, HPos.LEFT);
-
+            
+            //nuppude lisamise tegevus
             nupp_lisaTunde.setOnAction(new EventHandler<ActionEvent>() {
                 String nimetus;
                 public void handle(ActionEvent e) {
@@ -144,28 +149,47 @@ public class Main extends Application {
 
                         try {
                             if (väli_nimetus.getText().trim().isEmpty()) {
-                                throw new Exception("ERROR: Nimetus sisestamata");
+                            	Alert teavitus = new Alert(AlertType.ERROR);
+                                teavitus.setTitle("Viga!");
+                                teavitus.setContentText("Aine nimetus on sisestamata!");
+                                teavitus.showAndWait();
                             } else {
+                            	//andmete listi ja dropdowni lisamine
                                 nimetus = väli_nimetus.getText(); }
                                 tunnid(väli_tunnid, nimetus, muutmine, lisamine);
+                                väli_nimetus.clear();
+                                väli_tunnid.clear();
                                 if (!dropdown.getItems().contains(nimetus)) {
                                 	dropdown.getItems().add(nimetus);
                                 }
                                 dropdown.setValue("-");
 
                         } catch (Exception str) {
-                            Alert teavitus = new Alert(AlertType.ERROR);
+                        	Alert teavitus = new Alert(AlertType.ERROR);
                             teavitus.setTitle("Viga!");
-                            teavitus.setContentText("Aine nimetus on sisestamata!");
+                            teavitus.setHeaderText("Viga!");
+                            teavitus.setContentText("Sisestatud tundide arv ei ole number!");
                             teavitus.showAndWait();
                         }
                     } else {
                         nimetus = väärtus;
-                        tunnid(väli_tunnid, nimetus, muutmine, lisamine);
-                        dropdown.setValue("-");}}
+                        try {
+                        	tunnid(väli_tunnid, nimetus, muutmine, lisamine);
+                        	dropdown.setValue("-");
+                            väli_nimetus.clear();
+                            väli_tunnid.clear();
+                        }
+                        catch (Exception numbriErind) {
+                            Alert teavitus = new Alert(AlertType.ERROR);
+                            teavitus.setTitle("Viga!");
+                            teavitus.setHeaderText("Viga!");
+                            teavitus.setContentText("Sisestatud tundide arv ei ole number!");
+                            teavitus.showAndWait();
+                        }
+                        }}
 
             });
-
+            //graafiku nupu loomine ja rakenduse defineerimine
             Button nupp_graafik = new Button("Kuva tabel");
             root.add(nupp_graafik, 1, 4);
             GridPane.setHalignment(nupp_graafik, HPos.RIGHT);
