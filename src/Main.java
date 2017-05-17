@@ -57,7 +57,7 @@ public class Main extends Application {
     }
     public void tunnid(TextField väli_tunnid, String nimetus, ListiAined muutmine, AineteLisamine lisamine) throws Exception{
         try {
-            double tunnid = Integer.parseInt(väli_tunnid.getText());
+            double tunnid = Double.parseDouble(väli_tunnid.getText());
             uusList = lisamine.lisaAineid(muutmine, nimetus, tunnid).getAinetelist();
             
         } catch (Exception numbriErind) {
